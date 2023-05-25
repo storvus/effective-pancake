@@ -82,4 +82,4 @@ def init_db(db):
     #     """
     # )
     c.close()
-    return "OK"
+    return bottle.template("admin/main", {"body": "OK"})
