@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between">
+            <h4>Posts</h4>
+            <div>
+                <a href="/master/post/" class="btn btn-sm btn-success">Add post</a>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        % for post in posts:
+        <tr>
+            <td>{{ post["id"] }}</td>
+            <td>{{ post["name"] }}</td>
+            <td class="text-end">
+                <a href="/master/post/{{ post['id'] }}/" class="link-success me-3">Edit</a>
+                <a href="/master/post/delete/{{ post['id'] }}/" class="link-success">Delete</a>
+            </td>
+        </tr>
+        % end
+    </table>
+</div>

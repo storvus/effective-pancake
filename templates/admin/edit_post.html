@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/img/favico.png">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+    % if post:
+        <h4>Edit post "{{ post['name'] }}"</h4>
+    % end
+    % if not post:
+        <h4>Add post</h4>
+    % end
+    <form action="/master/save-post/" method="post">
+        <input type="hidden" name="post_id" value="{{ post['id'] if post else '' }}" />
+        <div class="row">
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Title</label>
+                <input type="text" class="form-control" id="nameInput" name="name" value="{{ post['name'] if post else '' }}">
+            </div>
+            <div class="mb-3">
+                <label for="body" class="form-label">Body</label>
+                <textarea class="form-control" id="body" name="body" rows="15">{{ post['body'] if post else '' }}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">{{ 'Save post' if post else 'Add post' }}</button>
+    </form>
+</div>
+</body>
+</html>

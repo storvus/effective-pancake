@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Latest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/img/favico.png">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/codehilite.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container container-lg">
+        <div class="row">
+            <div class="col-lg-2 d-none d-lg-block"></div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="row">
+                    <nav class="navbar navbar-expand-lg bg-light">
+                        <div class="container-fluid col-lg-8 col-sm-7 col-6">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Skill</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">LeetCode</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Serbia</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="https://storv.us">Portfolio</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end col-lg-4 col-sm-5 col-6 pe-3">
+                            <form method="get" action="/search/" class="m-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="it doesn't work" name="search" />
+                                    <button href="#" class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" class="d-inline">
+                                            <path fill="var(--ci-primary-color, currentColor)" d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z" class="ci-primary"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+                <div class="row">
+                    {{ !body }}
+                </div>
+            </div>
+            <div class="col-lg-2 d-none d-lg-block"></div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

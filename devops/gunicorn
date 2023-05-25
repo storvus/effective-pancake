@@ -1,0 +1,12 @@
+#!/bin/sh -xe
+
+exec gunicorn \
+  --bind=0.0.0.0:8003 \
+  --pid=/tmp/gunicorn_blog.pid \
+  --access-logfile="-" \
+  --error-logfile="-" \
+  --log-level=info \
+  --timeout=1800 \
+  --workers=2 \
+  --preload \
+  wsgi:app

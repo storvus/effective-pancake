@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx:/etc/nginx
+    ports:
+      - '80:80'
+
+  blog:
+    build:
+      context: ./
+    command: devops/gunicorn
+    ports:
+      - '8003:8003'
