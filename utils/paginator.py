@@ -26,6 +26,8 @@ class Paginator(BasePaginator):
             self.page = self.pages_count
 
     def render(self) -> str:
+        if self.pages_count < 2:
+            return ""
         return bottle.template("common/paginator", {"page": self.page, "pages_count": self.pages_count})
 
     @staticmethod
