@@ -1,9 +1,7 @@
 import time
 from typing import List
 
-import bottle
-
-from config import POSTS_PER_PAGE
+from utils.paginator import BasePaginator
 from utils.typing import Post
 
 
@@ -11,9 +9,9 @@ def yes_master(user, password):
     return user == password
 
 
-def get_posts_list(db, page: int, per_page: int = POSTS_PER_PAGE) -> List[Post]:
+def get_posts_list(db, paginator: BasePaginator) -> List[Post]:
     cur = db.cursor()
-    cur.execute("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", (per_page, (page - 1) * per_page))
+    cur.execute("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", (paginator.limit, paginator.offset))
     return cur.fetchall()
 
 
@@ -34,13 +32,6 @@ def create_post(db, name, body) -> int:
     cur = db.cursor()
     cur.execute("INSERT INTO posts (body, name, publish_date) VALUES (?, ?, ?)", (body, name, time.time()))
     return cur.lastrowid
-
-
-def get_pagination_page():
-    try:
-        return int(bottle.request.GET.get("page", 1))
-    except TypeError:
-        return 1
 
 
 def get_posts_count(db):
