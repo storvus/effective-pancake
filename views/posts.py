@@ -1,11 +1,13 @@
 from datetime import datetime
 
 import bottle
-import markdown
+import markdown2
 
 from utils.lib import get_posts_list, get_posts_count
 from utils.paginator import Paginator
 
+
+# ToDo: add users' comments to posts
 
 def main(db):
     posts_count = get_posts_count(db)
@@ -18,7 +20,7 @@ def main(db):
             "paginator": paginator.render(),
             "posts": [{
                 **post,
-                "body": markdown.markdown(post["body"], extensions=["codehilite"]),
+                "body": markdown2.markdown(post["body"], extras=["nofollow", "task_list", "fenced-code-blocks"]),
                 "publish_date": datetime.fromtimestamp(post["publish_date"]).strftime("%Y-%m-%d %H:%M"),
             } for post in posts]
         }

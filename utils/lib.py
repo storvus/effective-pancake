@@ -9,6 +9,16 @@ def yes_master(user, password):
     return user == password
 
 
+def search_posts(db, search_term: str) -> List[Post]:
+    search_term = f"%{search_term}%"
+    cur = db.cursor()
+    cur.execute(
+        "SELECT * FROM posts WHERE body LIKE ? OR name LIKE ? ORDER BY id DESC",
+        (search_term, search_term, )
+    )
+    return cur.fetchall()
+
+
 def get_posts_list(db, paginator: BasePaginator) -> List[Post]:
     cur = db.cursor()
     cur.execute("SELECT * FROM posts ORDER BY id DESC LIMIT ? OFFSET ?", (paginator.limit, paginator.offset))
