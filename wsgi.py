@@ -2,7 +2,7 @@ import bottle
 
 from db import bottle_sqlite
 from views.admin import save_post, posts_list, logout, edit_post, new_post, init_db, main_admin
-from views.posts import main
+from views.posts import main, view_post
 from views.search import search
 from views.static import stylesheets, jscripts, images
 
@@ -20,6 +20,7 @@ def setup_routing(bottle_app):
 
     # posts
     bottle_app.route("/", ["GET"], main)
+    bottle_app.route("/read/<post_id>/", ["GET"], view_post)
     bottle_app.route("/search/", ["GET"], search)
 
     # admin

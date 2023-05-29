@@ -6,7 +6,7 @@ from utils.paginator import Paginator
 
 @bottle.auth_basic(yes_master)
 def main_admin():
-    return bottle.template("admin/main", {"body": ""})
+    return bottle.template("admin/main", {"base": "", "title": "Main"})
 
 
 def logout():
@@ -15,20 +15,18 @@ def logout():
 
 @bottle.auth_basic(yes_master)
 def new_post():
-    post_form = bottle.template("admin/edit_post", {"post": None})
-    return bottle.template("admin/main", {"body": post_form})
+    return bottle.template("admin/edit_post", {"post": None})
 
 
 @bottle.auth_basic(yes_master)
 def edit_post(db, post_id):
     post = get_post_by_id(db, post_id)
-    post_form = bottle.template(
+    return bottle.template(
         "admin/edit_post",
         {
             "post": post
         }
     )
-    return bottle.template("admin/main", {"body": post_form})
 
 
 @bottle.auth_basic(yes_master)
@@ -47,14 +45,13 @@ def posts_list(db):
     posts_count = get_posts_count(db)
     paginator = Paginator(records_count=posts_count)
 
-    posts = bottle.template(
+    return bottle.template(
         "admin/posts",
         {
             "paginator": paginator.render(),
             "posts": get_posts_list(db, paginator)
         }
     )
-    return bottle.template("admin/main", {"body": posts})
 
 
 @bottle.auth_basic(yes_master)
@@ -89,4 +86,4 @@ def init_db(db):
     #     """
     # )
     c.close()
-    return bottle.template("admin/main", {"body": "OK"})
+    return bottle.template("admin/main", {"base": "OK", "title": "DB init"})
