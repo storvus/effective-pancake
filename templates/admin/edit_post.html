@@ -1,21 +1,25 @@
 % rebase('admin/main', title='Edit post' if post else 'Add post')
 
 % if post:
-    <h4>Edit post "{{ post['name'] }}"</h4>
+    <h4>Edit post "{{ post.name }}"</h4>
 % end
 % if not post:
     <h4>Add post</h4>
 % end
 <form action="/master/save-post/" method="post">
-    <input type="hidden" name="post_id" value="{{ post['id'] if post else '' }}" />
+    <input type="hidden" name="post_id" value="{{ post.id if post else '' }}" />
     <div class="row">
         <div class="mb-3">
             <label for="nameInput" class="form-label">Title</label>
-            <input type="text" class="form-control" id="nameInput" name="name" value="{{ post['name'] if post else '' }}">
+            <input type="text" class="form-control" id="nameInput" name="name" value="{{ post.name if post else '' }}">
         </div>
         <div class="mb-3">
             <label for="body" class="form-label">Body</label>
-            <textarea class="form-control" id="body" name="body" rows="15">{{ post['body'] if post else '' }}</textarea>
+            <textarea class="form-control" id="body" name="body" rows="15">{{ post.body if post else '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags</label>
+            <input type="text" class="form-control" id="tags" name="tags" value="">
         </div>
     </div>
     <button type="submit" class="btn btn-success">{{ 'Save post' if post else 'Add post' }}</button>

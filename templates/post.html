@@ -1,14 +1,14 @@
-% rebase('base.html', title='', search_term=search_term)
+% rebase('base.html', title=post.name)
 
-<div class="card border-0 bg-light mt-3">
+<div class="card border-0 bg-white mt-3">
     <div class="card-body pe-0 ps-0 pb-0">
-        <h5>{{ post["name"] }}</h5>
-        {{ !post["body"] }}
+        <h5>{{ post.name }}</h5>
+        {{ !post.formatted_body }}
         <p class="text-end">
             <span class="badge text-secondary align-bottom">
                 <em>
                     <small>
-                        {{ post["publish_date"] }}
+                        {{ post.formatted_publish_date }}
                     </small>
                 </em>
             </span>

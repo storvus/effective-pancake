@@ -1,12 +1,14 @@
 import bottle
 
-from utils.lib import update_post_by_id, create_post, get_posts_list, yes_master, get_post_by_id, get_posts_count
+from models.base import Base
+from models.post import Post
+from utils.lib import update_post_by_id, create_post, yes_master
 from utils.paginator import Paginator
 
 
 @bottle.auth_basic(yes_master)
 def main_admin():
-    return bottle.template("admin/main", {"base": "", "title": "Main"})
+    return bottle.template("admin/main", {"base": "Main page", "title": "Main"})
 
 
 def logout():
@@ -20,7 +22,7 @@ def new_post():
 
 @bottle.auth_basic(yes_master)
 def edit_post(db, post_id):
-    post = get_post_by_id(db, post_id)
+    post = db.query(Post).get(post_id)
     return bottle.template(
         "admin/edit_post",
         {
@@ -33,57 +35,38 @@ def edit_post(db, post_id):
 def save_post(db):
     post_id = bottle.request.forms.get("post_id")
     if post_id:
-        update_post_by_id(db, post_id, bottle.request.forms["name"], bottle.request.forms["body"])
+        post = db.query(Post).get(post_id)
     else:
-        post_id = create_post(db, bottle.request.forms["name"], bottle.request.forms["body"])
+        post = Post()
+    post.name = bottle.request.forms["name"]
+    post.body = bottle.request.forms["body"]
+    db.commit()
     # ToDo: add flash messages - bottle_utils.flash + bootstrap toast
-    return bottle.redirect(f"/master/post/{post_id}/")
+    return bottle.redirect(f"/master/post/{post.id}/")
+
+
+@bottle.auth_basic(yes_master)
+def delete_post(db, post_id):
+    db.query(Post).filter(Post.id == post_id).delete()
+    # ToDo: add flash messages - bottle_utils.flash + bootstrap toast
+    return bottle.redirect(f"/master/posts/")
 
 
 @bottle.auth_basic(yes_master)
 def posts_list(db):
-    posts_count = get_posts_count(db)
-    paginator = Paginator(records_count=posts_count)
+    posts = db.query(Post).order_by(Post.id.desc())
+    paginator = Paginator(records_count=posts.count())
 
     return bottle.template(
         "admin/posts",
         {
             "paginator": paginator.render(),
-            "posts": get_posts_list(db, paginator)
+            "posts": posts.all(),
         }
     )
 
 
 @bottle.auth_basic(yes_master)
 def init_db(db):
-    c = db.cursor()
-    # c.execute(
-    #     """
-    #         CREATE TABLE IF NOT EXISTS tags (
-    #             id integer PRIMARY KEY,
-    #             name text NOT NULL
-    #         );
-    #     """
-    # )
-    c.execute(
-        """
-            CREATE TABLE IF NOT EXISTS posts (
-                id integer PRIMARY KEY,
-                body text NOT NULL,
-                name text NOT NULL,
-                publish_date INTEGER NOT NULL
-            );
-        """
-    )
-    # c.execute(
-    #     """
-    #         CREATE TABLE IF NOT EXISTS tags_posts (
-    #             tag_id integer NOT NULL,
-    #             post_id integer NOT NULL,
-    #             FOREIGN KEY(tag_id) REFERENCES tags(id),
-    #             FOREIGN KEY(post_id) REFERENCES posts(id)
-    #         );
-    #     """
-    # )
-    c.close()
+    Base.metadata.create_all(db.bind)
     return bottle.template("admin/main", {"base": "OK", "title": "DB init"})
