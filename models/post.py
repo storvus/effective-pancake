@@ -21,7 +21,7 @@ class Post(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     body: Mapped[str] = mapped_column(Text)
     name: Mapped[str] = mapped_column(String(255))
-    publish_date: Mapped[int] = mapped_column(Integer)
+    publish_date: Mapped[int] = mapped_column(Integer, default=datetime.now)
     tags: Mapped[List["Tag"]] = relationship(secondary=posts_tags, back_populates="posts")
 
     def __repr__(self) -> str:

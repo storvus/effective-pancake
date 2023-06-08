@@ -38,6 +38,7 @@ def save_post(db):
         post = db.query(Post).get(post_id)
     else:
         post = Post()
+        db.add(post)
     post.name = bottle.request.forms["name"]
     post.body = bottle.request.forms["body"]
     db.commit()
