@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from typing import List
 
@@ -21,7 +22,7 @@ class Post(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     body: Mapped[str] = mapped_column(Text)
     name: Mapped[str] = mapped_column(String(255))
-    publish_date: Mapped[int] = mapped_column(Integer, default=datetime.now)
+    publish_date: Mapped[int] = mapped_column(Integer, default=lambda: int(time.time()))
     tags: Mapped[List["Tag"]] = relationship(secondary=posts_tags, back_populates="posts")
 
     def __repr__(self) -> str:
