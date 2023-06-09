@@ -2,7 +2,8 @@ import bottle
 
 from db import bottle_sqlalchemy
 from db.engine import engine
-from views.admin import save_post, posts_list, logout, edit_post, new_post, init_db, main_admin, delete_post
+from views.admin.posts import save_post, posts_list, logout, edit_post, new_post, init_db, main_admin, delete_post
+from views.admin.users import users_list
 from views.posts import main, view_post
 from views.search import search
 from views.static import stylesheets, jscripts, images
@@ -15,6 +16,9 @@ db_plugin = bottle_sqlalchemy.Plugin(
 )
 app.install(db_plugin)
 bottle.TEMPLATE_PATH = ["templates/"]
+
+bottle.SimpleTemplate.defaults["username"] = lambda: bottle.request.auth[0] if bottle.request.auth else ""
+
 
 
 def setup_routing(bottle_app):
@@ -31,6 +35,7 @@ def setup_routing(bottle_app):
     # admin
     bottle_app.route("/master/", ["GET"], main_admin)
     bottle_app.route("/master/save-post/", ["POST"], save_post)
+    bottle_app.route("/master/users/", ["GET"], users_list)
     bottle_app.route("/master/posts/", ["GET"], posts_list)
     bottle_app.route("/master/post/delete/<post_id>/", ["GET"], delete_post)
     bottle_app.route("/master/post/<post_id>/", ["GET"], edit_post)

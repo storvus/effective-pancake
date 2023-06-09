@@ -2,7 +2,7 @@ import bottle
 
 from models.base import Base
 from models.post import Post
-from utils.lib import update_post_by_id, create_post, yes_master
+from utils.lib import yes_master
 from utils.paginator import Paginator
 
 

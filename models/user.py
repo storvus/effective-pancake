@@ -8,7 +8,7 @@ class User(Base):
     __tablename__ = "user_account"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(String(30))
+    username: Mapped[str] = mapped_column(String(30))  # ToDo: make it unique
     password: Mapped[str] = mapped_column(String(32))
 
     def __repr__(self) -> str:

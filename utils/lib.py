@@ -1,12 +1,18 @@
 import time
+from hashlib import md5
 from typing import List
 
+from sqlalchemy.orm import create_session
+
+from db.engine import engine
 from models.post import Post
-from utils.paginator import BasePaginator
+from models.user import User
 
 
 def yes_master(user, password):
-    return user == password
+    session = create_session(bind=engine)
+    user = session.query(User).filter(User.username == user).first()
+    return user.password == md5(password.encode()).hexdigest()
 
 
 def search_posts(db, search_term: str) -> List[Post]:
