@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=torvus
+Group=www-data
+WorkingDirectory=/home/torvus/projects/effective-pancake
+ExecStart=/home/torvus/projects/effective-pancake/venv/bin/gunicorn \
+	--access-logfile - \
+  	--error-logfile - \
+  	--workers 2 \
+        --bind unix:/run/gunicorn.sock \
+  	wsgi:app
+
+[Install]
+WantedBy=multi-user.target
